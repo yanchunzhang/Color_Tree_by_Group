@@ -2,18 +2,21 @@
 use strict;
 use Getopt::Long;
 ##assign color of edge of phylogenetic tree based on tiplabels group;
-my ($tiplabel, $edge, $grp, $out);
+my ($tiplabel, $edge, $grp, $out, $basecolor);
 
 GetOptions  (
     "tiplabel=s"         => \$tiplabel,
     "out=s"         => \$out,
     "edge=s"         => \$edge,
     "grp=s"         => \$grp,
+    "basecolor=s"         => \$basecolor,
 );
 
 unless ($tiplabel && $edge && $grp && $out) {
 	die "Specify the tiplabel file, edge file, grp file and out filename";
 }
+
+unless ($basecolor) {$basecolor = "gray"}
 
 my %tip;
 open(TIP, $tiplabel) or die;
@@ -97,7 +100,7 @@ for my $line (sort {$a <=> $b} keys %{$edge{"info"}}) {
     elsif ($color{$one} eq $color{$two}) {
         $edge{"color"}{$line} = $color{$one};
     }
-    else {$edge{"color"}{$line} = "gray";}
+    else {$edge{"color"}{$line} = $basecolor;}
     
     print OUT "$edge{\"color\"}{$line}\n";
 }
@@ -121,7 +124,7 @@ sub nodecolor {
         $tmpcolor = &nodecolor($sub[0]);
         for (my $i=1;$i<@sub;$i++) {
             my $tmp = &nodecolor($sub[$i]);
-            $tmpcolor = "gray" if ($initial ne $tmp);
+            $tmpcolor = $basecolor if ($initial ne $tmp);
         }
     }    
     return $tmpcolor;
