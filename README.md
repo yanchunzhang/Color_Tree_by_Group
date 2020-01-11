@@ -23,7 +23,9 @@ edge.info:
 
 Second, suppose we have a file containing the group information of all samples, samples without a certain group can be treated as mixed then assigned as gray color. Then we can assign group or color for each node in the tree based on color of all its child nodes. If all child nodes have a same certain group or color, then the node inherit directly the same color of its children; else the node would be assigned as gray. For all edges(branches), its color is determined by the two node at its both ends.
 
-perl tree.edge.color.pl --tiplabel tiplabel.info --edge edge.info --grp test.group --out test.edge.color
+perl tree.edge.color.pl --tiplabel tiplabel.info --edge edge.info --grp test.group --out test.edge.color --basecolor gray
+
+Note: The group file should in the same format as the example group file, i.e., the first column should be sample name and the second column should be a color assigned to the sample. And the samples with no certain group should be set as a base color, such as gray or black. And this color shoule be the same as the value of the --basecolor argument.
 
 Third, read tree and color information of edges in R and draw the tree.
 
